@@ -15,9 +15,12 @@ public class PedidoDetalle implements Serializable {
     @Column(name = "id_pedi_deta", nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_pedi")
-    private Pedido pedido;
+    //@ManyToOne//    (cascade = CascadeType.PERSIST)
+    //@JoinColumn(name = "id_pedi", referencedColumnName = "id_pedi")
+    //private Pedido pedido;
+    //@Id
+    @Column(name = "id_pedi", nullable = false)
+    private Long idPedido;
 
     @OneToOne
     @JoinColumn(name = "id_arti")
@@ -44,12 +47,21 @@ public class PedidoDetalle implements Serializable {
         this.id = id;
     }
 
-    public Pedido getPedido() {
-        return pedido;
+//    public Pedido getPedido() {
+//        return pedido;
+//    }
+//
+//    public void setPedido(Pedido pedido) {
+//        this.pedido = pedido;
+//    }
+
+
+    public Long getIdPedido() {
+        return idPedido;
     }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
+    public void setIdPedido(Long idPedido) {
+        this.idPedido = idPedido;
     }
 
     public Articulo getArticulo() {

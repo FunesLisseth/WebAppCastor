@@ -8,9 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import pe.edu.upc.persistence.Pedido;
+import pe.edu.upc.persistence.PedidoDetalle;
 import pe.edu.upc.service.PedidoService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class PedidoRestController {
@@ -37,10 +39,17 @@ public class PedidoRestController {
         return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/rest/pedido/add/", method = RequestMethod.POST)
+    @RequestMapping(value = "/rest/pedido/add", method = RequestMethod.POST)
     public ResponseEntity<Void> createUser(@RequestBody Pedido pedido, UriComponentsBuilder ucBuilder) {
 
+        Set<PedidoDetalle> pedidoDetalles = pedido.getPedidoDetalles();
+        pedido.setPedidoDetalles(null);
         pedidoService.registrar(pedido);
+
+        for(PedidoDetalle pd:pedidoDetalles){
+            pd.setIdPedido(pedido.getId());
+        }
+        pedidoService.registrarDetalle(pedidoDetalles);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/rest/pedido/{id}").buildAndExpand(pedido.getId()).toUri());

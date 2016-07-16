@@ -32,6 +32,10 @@ public class AbstractDao<PK extends Serializable, T> {
         getSession().persist(entity);
     }
 
+    public void refresh(T entity) {
+        getSession().refresh(entity);
+    }
+
     public void merge(T entity) { getSession().merge(entity); }
 
     public void delete(T entity) {

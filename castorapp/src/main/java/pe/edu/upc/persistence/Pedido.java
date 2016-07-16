@@ -36,8 +36,11 @@ public class Pedido implements Serializable {
     @Column(name = "fe_usua_modi", nullable = true)
     private Date fechaModificacion;
 
-    @OneToMany(mappedBy="pedido",cascade= CascadeType.ALL)
-    @JsonIgnore
+    //@OneToMany(cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    //@JoinColumn(name="id_pedi")
+    //@JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
+    @JoinColumn(name="id_pedi")
     private Set<PedidoDetalle> pedidoDetalles;
 
     public Long getId() {
